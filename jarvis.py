@@ -48,7 +48,7 @@ log_file = "program_log.txt"
 logging.basicConfig(filename=log_file, level=logging.DEBUG)
 
 # 定义唤醒词
-WAKE_WORD = "龍"
+WAKE_WORD = "jarvis"
 
 Input_command = ">>> "
 program_folder = "/program"
