@@ -232,7 +232,7 @@ def main():
     while running:
 
         # 开始监听
-        detector.start(detected_callback=snowboy_callback,
+        detector.start(detected_callback=takecommand,
                        interrupt_check=lambda: False,
                        sleep_time=0.03)
 
