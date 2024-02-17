@@ -32,10 +32,7 @@ config = {
     "verbose": False,
     "audio_gain": 1.5,
     "keyphrase": "jarvis",
-    "kws_threshold": 1e-5
-     'hmm': '/path/to/acoustic/model',  # 指定声学模型的路径
-    'lm': '/path/to/language/model',    # 指定语言模型的路径
-    'dict': '/path/to/dictionary',      # 指定发音字典的路径  
+    "kws_threshold": 1e-5    
 }
 
 # 初始化语音识别器和文本到语音引擎
