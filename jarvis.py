@@ -33,6 +33,9 @@ config = {
     "audio_gain": 1.5,
     "keyphrase": "jarvis",
     "kws_threshold": 1e-5
+     'hmm': '/path/to/acoustic/model',  # 指定声学模型的路径
+    'lm': '/path/to/language/model',    # 指定语言模型的路径
+    'dict': '/path/to/dictionary',      # 指定发音字典的路径  
 }
 
 # 初始化语音识别器和文本到语音引擎
@@ -146,7 +149,7 @@ def open_programs(program_folder):
 def thread():
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         for i in range(10):
-            future = executor.submit(start_external_python_script, 'external_script.py')
+            future = executor.submit(start_external_python_script, 'jarvis.py')
         
         for future in concurrent.futures.as_completed(future_to_script):
             try:
@@ -250,7 +253,7 @@ def main():
 
     if not running:
         # 打开另一个程序
-        os.system("python /待机程序") 
+        os.system("python Bide_one's_time.py") 
                  
         if "手动输入" in wake_command:
             keyboard = VirtualKeyboard()
@@ -278,7 +281,7 @@ def main():
 
             user_command = response_text[len(WAKE_WORD):].strip()  
             # 对用户输入进行处理，执行特定操作
-            if "打开程序" in response_text:
+            if "打开程序" in user_command:
                 program_name = response_text.replace("打开程序", "").strip()
                 if program_name in programs:
                     program_module = programs[program_name]
@@ -289,7 +292,7 @@ def main():
                 else:
                     print(f"未找到程序：{program_name}")
 
-            elif "退出" in response_text or "结束" in response_text:
+            elif "退出" in user_command or "结束" in user_command:
                 print("程序已退出")
                 logging.info("用户已退出程序")
                 running = False  # 设置标志为 False，用于退出主循环
