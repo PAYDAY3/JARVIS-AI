@@ -21,7 +21,7 @@ from thread import start_threads, start_external_python_script
 
 from my_package.date import date
 from my_package.speak import wishme
-from TextEditor import create_archive, load_archive, save_archive, find_file, delete_file, delete_specified_file
+from TextEditor import TextEditor
 from my_package.virtual_keyboard import VirtualKeyboard
 
 # Snowboy 模型文件路径
@@ -155,49 +155,6 @@ def thread():
             except Exception as e:
                 print('任务执行出错：', e)
 
-def command_listener():
-    while True:
-        command = input()
-        if "保存文件" in command:
-            # 解析出要保存的文件名
-            filename = command.split("保存文件")[-1].strip()
-            save_archive(file_path=filename)
-        elif "查找文件" in command:
-            # 解析出要查找的文件名
-            filename = command.split("查找文件")[-1].strip()
-            find_file(file_path=filename)
-        elif "删除文件" in command:
-            # 解析出要删除的文件名
-            filename = command.split("删除文件")[-1].strip()
-            delete_file(file_path=filename)
-        elif "退出" in command:
-            break
-
-def speech_listener():
-    recognizer = sr.Recognizer()
-    with sr.Microphone() as source:
-        print("开始语音识别...")
-        while True:
-            audio = recognizer.listen(source)
-            try:
-                text = recognizer.recognize_sphinx(audio, language="zh-CN")
-                print("识别结果：", text)
-                if "保存文件" in text:
-                    # 解析出要保存的文件名
-                    filename = text.split("保存文件")[-1].strip()
-                    save_archive(file_path=filename)
-                elif "查找文件" in text:
-                    # 解析出要查找的文件名
-                    filename = text.split("查找文件")[-1].strip()
-                    find_file(file_path=filename)
-                elif "删除文件" in text:
-                    # 解析出要删除的文件名
-                    filename = text.split("删除文件")[-1].strip()
-                    delete_file(file_path=filename)
-                elif "退出" in text:
-                    break
-            except sr.UnknownValueError:
-                print("无法识别语音输入。")
  # 主函数
 def main():
     # 获取系统的临时文件夹路径
@@ -332,10 +289,6 @@ if __name__ == "__main__":
             main()
             # 执行主程序的逻辑
             main_program_logic("program_folder")
-            # 调用命令监听函数
-            command_listener()
-            # 调用语音识别函数
-            speech_listener()
             thread()# 运行多线程程序
             # 从文件中加载程序映射
             mapping = load_program_mapping()
