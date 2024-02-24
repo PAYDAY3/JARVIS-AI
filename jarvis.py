@@ -67,7 +67,7 @@ def takecommand():
         recognizer.operation_timeout = 5  # 最长等待时间（秒）
         recognizer.energy_threshold = 4000      # 设置音量阈值
         recognizer.dynamic_energy_threshold = True  # 自动调整音量阈值
-        recognizer.default = 'snowboy/jarvis.umdl'
+        recognizer.default = "model"
         audio = recognizer.listen(source, phrase_time_limit=5)
     try:
         print("Recognizing...")  # 识别中...
@@ -102,7 +102,7 @@ def main_program_logic(program_folder):
     running = True
     while running:
         try:
-            wake_command = recognize_sphinx(takecommand()).lower()
+            wake_command = takecommand().lower() #recognize_sphinx(takecommand()).lower()
             program_file_name = program_mapping.get(wake_command, None)
             if program_file_name:
                 print(f"正在执行命令: {wake_command}")
@@ -196,7 +196,7 @@ def main():
         # 程序结束时停止监听
         detector.terminate()
 
-        wake_command = recognize_sphinx(takecommand()).lower()
+        wake_command = takecommand().lower()#    recognize_sphinx(takecommand()).lower()
         user_input = None
         print("等待唤醒词")
         logging.info("等待唤醒词")
