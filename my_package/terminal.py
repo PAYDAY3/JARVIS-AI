@@ -67,52 +67,6 @@ def execute_command(command):
             files = os.listdir(os.getcwd())
             for file in files:
                 print(file)
-        elif cmd == 'mkdir':
-            if args:
-                os.mkdir(args[0])
-                print(f"Created directory: {args[0]}")
-            else:
-                print("No directory name specified.")
-        elif cmd == 'rm':
-            if args:
-                for arg in args:
-                    if os.path.isfile(arg):
-                        os.remove(arg)
-                        print(f"Removed file: {arg}")
-                    elif os.path.isdir(arg):
-                        shutil.rmtree(arg)
-                        print(f"Removed directory: {arg}")
-                    else:
-                        print(f"No such file or directory: {arg}")
-            else:
-                print("No file or directory name specified.")
-        elif cmd == 'cp':
-            if len(args) >= 2:
-                source = args[0]
-                destination = args[1]
-                shutil.copy(source, destination)
-                print(f"Copied file/directory from {source} to {destination}")
-            else:
-                print("Insufficient arguments. Usage: cp <source> <destination>")
-        elif cmd == 'mv':
-            if len(args) >= 2:
-                source = args[0]
-                destination = args[1]
-                shutil.move(source, destination)
-                print(f"Moved file/directory from {source} to {destination}")
-            else:
-                print("Insufficient arguments. Usage: mv <source> <destination>")
-        elif cmd == 'cat':
-            if args:
-                for arg in args:
-                    try:
-                        with open(arg) as file:
-                            contents = file.read()
-                            print(contents)
-                    except FileNotFoundError:
-                        print(f"File '{arg}' not found.")
-            else:
-                print("No file name specified.")
         else:
             result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=10)
             output = result.stdout.strip()
