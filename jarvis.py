@@ -17,7 +17,7 @@ import tempfile
 import concurrent.futures
 
 import threading
-from thread import start_threads, start_external_python_script
+from thread import process_tasks
 
 from my_package.date import date
 from my_package.speak import wishme
