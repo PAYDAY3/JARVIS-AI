@@ -23,6 +23,7 @@ from my_package.date import date
 from my_package.speak import wishme
 from TextEditor import TextEditor
 from my_package.virtual_keyboard import VirtualKeyboard
+from my_package.algorithm import greedy_activity_selection
 
 # Snowboy 模型文件路径
 model = "my_Snowboy/jarvis.umdl"
@@ -69,6 +70,11 @@ def takecommand():
         recognizer.dynamic_energy_threshold = True  # 自动调整音量阈值
         recognizer.default = "model"
         audio = recognizer.listen(source, phrase_time_limit=5)
+        # 将录制的音频保存为临时文件
+        with tempfile.NamedTemporaryFile(delete=False) as f:
+            audio_file_path = f.name + ".wav"
+            f.write(audio.get_wav_data())
+    return audio_file_path 
     try:
         print("Recognizing...")  # 识别中...
         query = recognizer.recognize_sphinx(audio, language='zh-CN')
@@ -85,7 +91,8 @@ def takecommand():
         return ""
 
 # 创建 Snowboy 监听器
-detector = snowboydecoder.HotwordDetector(model, sensitivity=0.5)
+detector = snowboydecoder.HotwordDetector(model, sensitivity=0.5, audio_gain=1)
+detector.start(takecommand)
 
 # 主程序逻辑
 def main_program_logic(program_folder):
@@ -142,18 +149,6 @@ def open_programs(program_folder):
             except ImportError as error:
                 logging.error(f"导入模块 {program_name} 失败：{error}")
     return programs
-    
-def thread():
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-        for i in range(10):
-            future = executor.submit(start_external_python_script, 'jarvis.py')
-        
-        for future in concurrent.futures.as_completed(future_to_script):
-            try:
-                result = future.result()
-                print('任务执行结果：', result)
-            except Exception as e:
-                print('任务执行出错：', e)
 
  # 主函数
 def main():
@@ -278,10 +273,15 @@ def main():
                                     print(f"导入模块失败: {error}")
                                     logging.error(f"导入模块失败: {error}")
 
-
+# 定义活动的开始时间和结束时间列表
+start_times = [1, 3, 0, 5, 8, 5]
+finish_times = [2, 4, 6, 7, 9, 9]
 if __name__ == "__main__":
     wishme()# 执行程序初始化逻辑
-    
+    # 调用贪心算法函数，获取选择的活动列表
+    selected_activities = greedy_activity_selection(start_times, finish_times)
+    # 打印选择的活动列表
+    print(selected_activities)    
     while True:
         try:
            
