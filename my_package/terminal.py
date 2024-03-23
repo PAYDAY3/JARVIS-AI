@@ -98,7 +98,7 @@ def main():
 
     while True:
         try:
-            user_input = session.prompt('>>> ")
+            user_input = session.prompt(">>> ")
             if user_input.lower() == 'exit':
                 break
             else:
