@@ -226,7 +226,7 @@ def main():
 
             # 通过文本交流获取用户输入
             query = input(Input_command)
-            response_text = recognize_sphinx(query).lower()
+            response_text = takecommand(query).lower()
 
             user_command = response_text[len(WAKE_WORD):].strip()  
             # 对用户输入进行处理，执行特定操作
@@ -245,7 +245,6 @@ def main():
                 print("程序已退出")
                 logging.info("用户已退出程序")
                 running = False  # 设置标志为 False，用于退出主循环
-                break
             else:
                 print("未知指令，请重试")
                 logging.warning("未知指令")
