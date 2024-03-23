@@ -288,7 +288,7 @@ if __name__ == "__main__":
             main()
             # 执行主程序的逻辑
             main_program_logic("program_folder")
-            thread()# 运行多线程程序
+            process_tasks()# 运行多线程程序
             # 从文件中加载程序映射
             mapping = load_program_mapping()
             print(mapping)
